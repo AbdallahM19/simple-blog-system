@@ -1,1 +1,5 @@
+database.db
+/database.db
 /app/__pycache__
+/images
+/app/routes/__pycache__
