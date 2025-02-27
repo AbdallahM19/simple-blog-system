@@ -63,15 +63,15 @@ async def read_register(
     db: Session = Depends(get_session)
 ):
     """Register"""
-    current_user = None
+    existing_user = None
 
     try:
         if match(EMAIL_REGEX, user.email):
-            current_user = db.exec(select(User).where(User.email == user.email)).first()
+            existing_user = db.exec(select(User).where(User.email == user.email)).first()
         else:
-            current_user = db.exec(select(User).where(User.username == user.username)).first()
+            existing_user = db.exec(select(User).where(User.username == user.username)).first()
 
-        if current_user:
+        if existing_user:
             raise HTTPException(status_code=400, detail="Username already exists")
 
         hash_pass = get_password_hash(user.password)
