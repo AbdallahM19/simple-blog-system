@@ -51,9 +51,13 @@ async def read_posts(
         case "user_id" if q.isdigit():
             return db.exec(select(Post).where(Post.user_id == int(q))).all()
         case "title":
-            return db.exec(select(Post).where(Post.title == q)).all()
+            return db.exec(select(Post).where(
+                Post.title.ilike(f"%{q}%")
+            )).all()
         case "content":
-            return db.exec(select(Post).where(Post.content == q)).all()
+            return db.exec(select(Post).where(
+                Post.content.ilike(f"%{q}%")
+            )).all()
         case _:
             raise HTTPException(status_code=400, detail="Invalid field")
 
